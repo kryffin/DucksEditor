@@ -1,8 +1,10 @@
 package fr.ul.duckseditor.model.objets.bloc;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import fr.ul.duckseditor.DucksEditor;
+import fr.ul.duckseditor.dataFactory.TextureFactory;
 
 public class Rectangle extends Bloc {
 
@@ -13,14 +15,19 @@ public class Rectangle extends Bloc {
         height = DucksEditor.heightToScreen(4);
 
         PolygonShape carre = new PolygonShape();
-        carre.setAsBox(width, height); //1UM x 4UM
+        carre.set(new float[]{0.f, 0.f, 0.f, height, width, height, width, 0.f}); // 1x4 UM
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = carre;
         fixtureDef.density = 0.5f;
         fixtureDef.friction = 0.4f;
         fixtureDef.restitution = 0.5f; // Make it bounce a little bit
-        Fixture fixture = corps.createFixture(fixtureDef);
+        corps.createFixture(fixtureDef);
         carre.dispose();
+    }
+
+    @Override
+    public void draw(SpriteBatch sb) {
+        sb.draw(TextureFactory.getBeam(), corps.getPosition().x, corps.getPosition().y, width, height);
     }
 
 }

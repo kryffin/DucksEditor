@@ -4,12 +4,13 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import fr.ul.duckseditor.DucksEditor;
 import fr.ul.duckseditor.model.objets.Objet;
 
 public abstract class Personnage extends Objet {
 
     protected int pv;
-    protected float radius = 10.f;
+    protected float diameter = DucksEditor.widthToScreen(1);
 
     public Personnage (World monde, Vector2 position) {
         BodyDef def = new BodyDef();
@@ -19,20 +20,20 @@ public abstract class Personnage extends Objet {
         corps = monde.createBody(def);
 
         CircleShape cercle = new CircleShape();
-        cercle.setRadius(radius);
+        cercle.setRadius(diameter/2);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = cercle;
         fixtureDef.density = 0.5f;
         fixtureDef.friction = 0.4f;
         fixtureDef.restitution = 0.5f; // Make it bounce a little bit
-        Fixture fixture = corps.createFixture(fixtureDef);
+        corps.createFixture(fixtureDef);
         cercle.dispose();
     }
 
     @Override
     public void draw(ShapeRenderer sr) {
         sr.setColor(Color.RED);
-        sr.circle(getCorps().getPosition().x, getCorps().getPosition().y, radius);
+        sr.circle(getCorps().getPosition().x, getCorps().getPosition().y, diameter/2);
     }
 
     @Override

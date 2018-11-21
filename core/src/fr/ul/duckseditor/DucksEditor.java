@@ -10,6 +10,7 @@ public class DucksEditor extends Game {
 	public static int SCREEN_HEIGHT = 1080;
 	public static int UM_WIDTH = 64;
 	public static int UM_HEIGHT = 36;
+	public static int FPS = 30;
 
     private EditorScreen es;
 

@@ -1,6 +1,6 @@
 package fr.ul.duckseditor.model;
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -21,6 +21,7 @@ public class Monde {
     private World monde;
     private static Body[] bords;
     private ArrayList<Objet> objets;
+    private ArrayList<Objet> objetsRun;
 
     public Monde () {
         monde = new World(new Vector2(0.f, -10.f), false);
@@ -33,10 +34,10 @@ public class Monde {
 
         objets = new ArrayList<Objet>();
 
-        Objet p = new Prisonnier(monde, new Vector2(500.f, 500.f));
+        Objet p = new Prisonnier(monde, new Vector2(450.f, 700.f));
         objets.add(p);
 
-        Objet b = new Bandit(monde, new Vector2(600.f, 500.f));
+        Objet b = new Bandit(monde, new Vector2(700.f, 800.f));
         objets.add(b);
 
         Objet c = new Carre(monde, new Vector2(700.f, 500.f));
@@ -44,6 +45,18 @@ public class Monde {
 
         Objet r = new Rectangle(monde, new Vector2(800.f, 500.f));
         objets.add(r);
+    }
+
+    public void spawn (Objet o) {
+        objets.add(o);
+    }
+
+    public void spawnCarre (int x, int y) {
+        objets.add(new Carre(monde, new Vector2((float)x, (float)y)));
+    }
+
+    public void ajouterCarre () {
+        Carre c = new Carre(getMonde(), new Vector2(0.f, 0.f));
     }
 
     private void constructionBords () {
@@ -106,6 +119,24 @@ public class Monde {
             o.draw(sr);
             o.drawLinearVelocity(sr);
         }
+    }
+
+    public void draw (SpriteBatch sb) {
+        for (Objet o : objets) {
+            o.draw(sb);
+        }
+    }
+
+    public void dispose () {
+        monde.dispose();
+    }
+
+    public Objet getObjet (int i) {
+        return objets.get(i);
+    }
+
+    public void run () {
+        objetsRun = new ArrayList<Objet>(objets);
     }
 
 }

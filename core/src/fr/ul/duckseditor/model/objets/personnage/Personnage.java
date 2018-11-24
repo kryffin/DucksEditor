@@ -31,17 +31,4 @@ public abstract class Personnage extends Objet {
         cercle.dispose();
     }
 
-    @Override
-    public void draw(ShapeRenderer sr) {
-        sr.setColor(Color.RED);
-        sr.circle(getCorps().getPosition().x, getCorps().getPosition().y, diameter/2);
-    }
-
-    @Override
-    public void drawLinearVelocity(ShapeRenderer sr) {
-        sr.setColor(Color.BLUE);
-        float x = getCorps().getPosition().x, y = getCorps().getPosition().y;
-        sr.line(x, y, x + getCorps().getLinearVelocity().x, y + getCorps().getLinearVelocity().y);
-    }
-
 }

@@ -108,13 +108,6 @@ public class Monde {
         return monde;
     }
 
-    public void draw (ShapeRenderer sr) {
-        for (Objet o : objets) {
-            o.draw(sr);
-            o.drawLinearVelocity(sr);
-        }
-    }
-
     public void draw (SpriteBatch sb) {
         for (Objet o : objets) {
             o.draw(sb);

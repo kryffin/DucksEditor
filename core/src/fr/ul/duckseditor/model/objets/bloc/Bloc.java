@@ -20,17 +20,4 @@ public abstract class Bloc extends Objet {
         corps.setUserData(this);
     }
 
-    @Override
-    public void draw(ShapeRenderer sr) {
-        sr.setColor(Color.GREEN);
-        sr.rect(getCorps().getPosition().x, getCorps().getPosition().y, width, height);
-    }
-
-    @Override
-    public void drawLinearVelocity(ShapeRenderer sr) {
-        sr.setColor(Color.BLUE);
-        float x = getCorps().getPosition().x + (width/2), y = getCorps().getPosition().y + (height/2);
-        sr.line(x, y, x + getCorps().getLinearVelocity().x, y + getCorps().getLinearVelocity().y);
-    }
-
 }

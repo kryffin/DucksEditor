@@ -20,7 +20,7 @@ public class Listener implements InputProcessor {
     private EditorScreen es;
     private EditorPanel ep;
     private ArrayList<Body> objetsSelectionnes;
-    private Vector2 lastPos;
+    private Vector2 lastMousePos;
 
     public Listener (EditorScreen es, EditorPanel ep) {
         this.es = es;
@@ -63,7 +63,8 @@ public class Listener implements InputProcessor {
         for (Body oSelectionne : objetsSelectionnes) {
             for (Objet oMonde : es.getMonde().getObjets()) {
                 if (oMonde.getCorps() == oSelectionne) {
-                    lastPos = new Vector2(oMonde.getCorps().getPosition().x, oMonde.getCorps().getPosition().y);
+                    lastMousePos = new Vector2(mouse.x, mouse.y);
+                    es.setRunning(false);
                 }
             }
             for (Bouton b : ep.getBoutons()) {
@@ -91,10 +92,11 @@ public class Listener implements InputProcessor {
             for (Objet oMonde : es.getMonde().getObjets()) {
                 if (oMonde.getCorps() == oSelectionne) {
                     Objet o = (Objet)oSelectionne.getUserData();
-                    Vector2 vector = new Vector2(mouse.x - lastPos.x, mouse.y - lastPos.y);
-                    Vector2 newPos = new Vector2(lastPos.x + vector.x, lastPos.y + vector.y);
-                    o.getCorps().setTransform(newPos.x, newPos.y, 0.f);
-                    lastPos = new Vector2(newPos);
+
+                    Vector2 vector = new Vector2(mouse.x - lastMousePos.x, mouse.y - lastMousePos.y);
+                    o.getCorps().setTransform(o.getCorps().getPosition().x + vector.x, o.getCorps().getPosition().y + vector.y, o.getCorps().getAngle());
+
+                    lastMousePos.set(mouse.x, mouse.y);
                 }
             }
         }

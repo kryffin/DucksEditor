@@ -57,7 +57,7 @@ public class DucksEditor extends Game {
      * @param UM valeur en UM
      * @return valeur sur l'écran
      */
-    public static float widthToScreen (int UM) {
+    public static float widthToScreen (float UM) {
         float ratio = SCREEN_WIDTH / UM_WIDTH;
         return UM * ratio;
     }
@@ -67,7 +67,7 @@ public class DucksEditor extends Game {
      * @param UM valeur en UM
      * @return valeur sur l'écran
      */
-    public static float heightToScreen (int UM) {
+    public static float heightToScreen (float UM) {
         float ratio = SCREEN_HEIGHT / UM_HEIGHT;
         return UM * ratio;
     }
@@ -77,10 +77,10 @@ public class DucksEditor extends Game {
      * @param screen valeur de l'écran
      * @return valeur en UM
      */
-    public static int widthToUM (float screen) {
+    public static float widthToUM (float screen) {
         screen /= SCREEN_WIDTH;
         screen *= UM_WIDTH;
-        return (int) screen;
+        return screen;
     }
 
     /**
@@ -88,10 +88,10 @@ public class DucksEditor extends Game {
      * @param screen valeur de l'écran
      * @return valeur en UM
      */
-    public static int heightToUM (float screen) {
+    public static float heightToUM (float screen) {
         screen /= SCREEN_HEIGHT;
         screen *= UM_HEIGHT;
-        return (int) screen;
+        return screen;
     }
 
 }

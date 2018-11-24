@@ -32,7 +32,7 @@ public class Rectangle extends Bloc {
         Sprite s = new Sprite(TextureFactory.getBeam());
         s.setSize(width, height);
         s.setPosition(corps.getPosition().x, corps.getPosition().y);
-        s.setOriginCenter();
+        s.setOrigin(0.f, 0.f);
         s.setRotation(rotation);
         s.draw(sb);
     }

@@ -5,11 +5,14 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import fr.ul.duckseditor.DucksEditor;
 import fr.ul.duckseditor.dataFactory.TextureFactory;
 import fr.ul.duckseditor.listener.Listener;
 import fr.ul.duckseditor.model.Monde;
+import fr.ul.duckseditor.model.objets.Objet;
 
 public class EditorScreen extends ScreenAdapter {
 
@@ -56,22 +59,25 @@ public class EditorScreen extends ScreenAdapter {
 
         // mise à jour du monde
 
-        if (running) {
-            monde.getMonde().step(delta, 10, 10);
+        for (Objet o : monde.getObjets()) {
+            o.setType(running);
         }
+
+        monde.getMonde().step(delta, 10, 10);
 
         // affichage
 
         sb.begin();
+
         sb.draw(TextureFactory.getBackground(), 0, 0, DucksEditor.UM_WIDTH, DucksEditor.UM_HEIGHT); //affiche le fond et l'étire
         ep.draw(sb);
         monde.draw(sb);
-        sb.end();
 
-        /*sr.begin(ShapeRenderer.ShapeType.Line);
-        ep.draw(sr);
-        monde.draw(sr);
-        sr.end();*/
+        Matrix4 debugMatrix=new Matrix4(camera.combined);
+        Box2DDebugRenderer debugRenderer=new Box2DDebugRenderer();
+        //debugRenderer.render(monde.getMonde(), debugMatrix);
+
+        sb.end();
 
         //limite fps
 

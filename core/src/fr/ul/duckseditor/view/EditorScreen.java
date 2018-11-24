@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import fr.ul.duckseditor.DucksEditor;
 import fr.ul.duckseditor.dataFactory.TextureFactory;
-import fr.ul.duckseditor.listener.Listener;
+import fr.ul.duckseditor.control.Listener;
 import fr.ul.duckseditor.model.Monde;
 import fr.ul.duckseditor.model.objets.Objet;
 import java.util.ArrayList;

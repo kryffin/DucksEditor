@@ -1,4 +1,4 @@
-package fr.ul.duckseditor.listener;
+package fr.ul.duckseditor.control;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;

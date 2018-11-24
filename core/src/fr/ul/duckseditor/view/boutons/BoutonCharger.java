@@ -18,6 +18,11 @@ public class BoutonCharger extends Bouton {
     }
 
     @Override
+    public void action() {
+        //ouvre la fenetre de chargement
+    }
+
+    @Override
     public String toString() {
         return "BoutonCharger";
     }

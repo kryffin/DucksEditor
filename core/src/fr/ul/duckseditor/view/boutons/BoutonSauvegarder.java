@@ -18,6 +18,11 @@ public class BoutonSauvegarder extends Bouton {
     }
 
     @Override
+    public void action() {
+        //sauvegarde le niveau
+    }
+
+    @Override
     public String toString() {
         return "BoutonSauvegarder";
     }

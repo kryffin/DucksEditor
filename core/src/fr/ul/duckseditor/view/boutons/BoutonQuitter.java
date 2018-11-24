@@ -17,6 +17,11 @@ public class BoutonQuitter extends Bouton {
     }
 
     @Override
+    public void action() {
+
+    }
+
+    @Override
     public String toString() {
         return "BoutonQuitter";
     }

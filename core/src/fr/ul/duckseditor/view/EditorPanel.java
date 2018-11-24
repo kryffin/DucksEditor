@@ -20,30 +20,30 @@ public class EditorPanel {
     private ArrayList<Bouton> boutons;
 
     public EditorPanel (Monde monde, EditorScreen es) {
-        width = DucksEditor.SCREEN_WIDTH / 6;
-        height = DucksEditor.SCREEN_HEIGHT;
+        width = DucksEditor.UM_WIDTH / 6;
+        height = DucksEditor.UM_HEIGHT;
 
         boutons = new ArrayList<Bouton>();
 
         //première ligne
-        boutons.add(new BoutonPoubelle(monde, new Vector2(width/4 - (width/4) + (width/40), DucksEditor.SCREEN_HEIGHT - DucksEditor.widthToScreen(2) - 10.f)));
-        boutons.add(new BoutonFlecheGauche(monde, new Vector2((width/4) * 2 - (width/4) + (width/40), DucksEditor.SCREEN_HEIGHT - DucksEditor.widthToScreen(2) - 10.f)));
-        boutons.add(new BoutonFlecheDroite(monde, new Vector2((width/4) * 3 - (width/4) + (width/40), DucksEditor.SCREEN_HEIGHT - DucksEditor.widthToScreen(2) - 10.f)));
-        boutons.add(new BoutonQuitter(monde, new Vector2((width/4) * 4 - (width/4) + (width/40), DucksEditor.SCREEN_HEIGHT - DucksEditor.widthToScreen(2) - 10.f)));
+        boutons.add(new BoutonPoubelle(monde, new Vector2(width/4 - (width/4) + (width/40), DucksEditor.UM_HEIGHT - 2 - 1.f)));
+        boutons.add(new BoutonFlecheGauche(monde, new Vector2((width/4) * 2 - (width/4) + (width/40), DucksEditor.UM_HEIGHT - 2 - 1.f)));
+        boutons.add(new BoutonFlecheDroite(monde, new Vector2((width/4) * 3 - (width/4) + (width/40), DucksEditor.UM_HEIGHT - 2 - 1.f)));
+        boutons.add(new BoutonQuitter(monde, new Vector2((width/4) * 4 - (width/4) + (width/40), DucksEditor.UM_HEIGHT - 2 - 1.f)));
 
         //seconde ligne
-        boutons.add(new BoutonCharger(monde, new Vector2(width/4 - (width/4) + (width/40), DucksEditor.SCREEN_HEIGHT - DucksEditor.widthToScreen(4) - 20.f)));
-        boutons.add(new BoutonSauvegarder(monde, new Vector2((width/4) * 2 - (width/4) + (width/40), DucksEditor.SCREEN_HEIGHT - DucksEditor.widthToScreen(4) - 20.f)));
-        boutons.add(new BoutonRemplacer(monde, new Vector2((width/4) * 3 - (width/4) + (width/40), DucksEditor.SCREEN_HEIGHT - DucksEditor.widthToScreen(4) - 20.f)));
+        boutons.add(new BoutonCharger(monde, new Vector2(width/4 - (width/4) + (width/40), DucksEditor.UM_HEIGHT - 4 - 2.f)));
+        boutons.add(new BoutonSauvegarder(monde, new Vector2((width/4) * 2 - (width/4) + (width/40), DucksEditor.UM_HEIGHT - 4 - 2.f)));
+        boutons.add(new BoutonRemplacer(monde, new Vector2((width/4) * 3 - (width/4) + (width/40), DucksEditor.UM_HEIGHT - 4 - 2.f)));
 
         //troisième ligne
-        boutons.add(new BoutonJouer(monde, new Vector2(width/4 - (width/4) + (width/40), DucksEditor.SCREEN_HEIGHT - DucksEditor.widthToScreen(6) - 30.f), es));
-        boutons.add(new BoutonStop(monde, new Vector2((width/4) * 2 - (width/4) + (width/40), DucksEditor.SCREEN_HEIGHT - DucksEditor.widthToScreen(6) - 30.f), es));
+        boutons.add(new BoutonJouer(monde, new Vector2(width/4 - (width/4) + (width/40), DucksEditor.UM_HEIGHT - 6 - 3.f), es));
+        boutons.add(new BoutonStop(monde, new Vector2((width/4) * 2 - (width/4) + (width/40), DucksEditor.UM_HEIGHT - 6 - 3.f), es));
 
         //troisième ligne
-        boutons.add(new BoutonCarre(monde, new Vector2(width/4 - (width/4) + (width/40), DucksEditor.SCREEN_HEIGHT - DucksEditor.widthToScreen(8) - 40.f)));
-        boutons.add(new BoutonRectangle(monde, new Vector2((width/4) * 2 - (width/4) + (width/40), DucksEditor.SCREEN_HEIGHT - DucksEditor.widthToScreen(10) - 40.f)));
-        boutons.add(new BoutonPrisonnier(monde, new Vector2((width/4) * 3 - (width/4) + (width/40), DucksEditor.SCREEN_HEIGHT - DucksEditor.widthToScreen(8) - 40.f)));
+        boutons.add(new BoutonCarre(monde, new Vector2(width/4 - (width/4) + (width/40), DucksEditor.UM_HEIGHT - 8 - 4.f)));
+        boutons.add(new BoutonRectangle(monde, new Vector2((width/4) * 2 - (width/4) + (width/40), DucksEditor.UM_HEIGHT - 8 - 6.f)));
+        boutons.add(new BoutonPrisonnier(monde, new Vector2((width/4) * 3 - (width/4) + (width/40), DucksEditor.UM_HEIGHT - 8 - 4.f)));
 
     }
 
@@ -62,10 +62,8 @@ public class EditorPanel {
         }
     }
 
-    public void check (float mouseX, float mouseY) {
-        for (Bouton b : boutons) {
-            b.check(mouseX, mouseY);
-        }
+    public ArrayList<Bouton> getBoutons () {
+        return boutons;
     }
 
 }

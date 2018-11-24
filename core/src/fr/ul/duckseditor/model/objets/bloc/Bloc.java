@@ -17,6 +17,7 @@ public abstract class Bloc extends Objet {
         def.position.set(new Vector2(position));
 
         corps = monde.createBody(def);
+        corps.setUserData(this);
     }
 
     @Override

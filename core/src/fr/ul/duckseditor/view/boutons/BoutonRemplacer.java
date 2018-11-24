@@ -17,6 +17,11 @@ public class BoutonRemplacer extends Bouton {
     }
 
     @Override
+    public void action() {
+        //ecrase le niveau
+    }
+
+    @Override
     public String toString() {
         return "BoutonRemplacer";
     }

@@ -3,9 +3,9 @@ package fr.ul.duckseditor.view.boutons.boutonsBlocks;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import fr.ul.duckseditor.DucksEditor;
 import fr.ul.duckseditor.dataFactory.TextureFactory;
 import fr.ul.duckseditor.model.Monde;
-import fr.ul.duckseditor.model.Spawner;
 import fr.ul.duckseditor.view.boutons.Bouton;
 
 public class BoutonCarre extends Bouton {
@@ -23,8 +23,7 @@ public class BoutonCarre extends Bouton {
 
     @Override
     public void action() {
-        System.out.println("CARRE");
-        Spawner.getInstance().spawnCarre();
+        monde.spawnCarre(DucksEditor.UM_WIDTH/2, DucksEditor.UM_HEIGHT/2);
     }
 
     @Override

@@ -17,6 +17,11 @@ public class BoutonFlecheGauche extends Bouton {
     }
 
     @Override
+    public void action() {
+        //passe sur le niveau de gauche
+    }
+
+    @Override
     public String toString() {
         return "BoutonFlecheGauche";
     }

@@ -8,11 +8,12 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import fr.ul.duckseditor.DucksEditor;
 import fr.ul.duckseditor.dataFactory.TextureFactory;
+import fr.ul.duckseditor.listener.Listener;
 import fr.ul.duckseditor.model.Monde;
-import fr.ul.duckseditor.model.Spawner;
 
 public class EditorScreen extends ScreenAdapter {
 
+    private Listener listener;
     private SpriteBatch sb;
     private ShapeRenderer sr;
     private OrthographicCamera camera;
@@ -24,11 +25,11 @@ public class EditorScreen extends ScreenAdapter {
     private int sleepTime;
     private boolean running;
 
-    public EditorScreen () {
+    public EditorScreen() {
         sb = new SpriteBatch();
         sr = new ShapeRenderer();
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, DucksEditor.SCREEN_WIDTH, DucksEditor.SCREEN_HEIGHT);
+        camera.setToOrtho(false, DucksEditor.UM_WIDTH, DucksEditor.UM_HEIGHT);
         camera.update();
         sb.setProjectionMatrix(camera.combined);
         sr.setProjectionMatrix(camera.combined);
@@ -36,15 +37,13 @@ public class EditorScreen extends ScreenAdapter {
         monde = new Monde();
 
         ep = new EditorPanel(monde, this);
-
-        Spawner.getInstance().setMonde(monde);
-        Spawner.getInstance().setSpriteBatch(sb);
-        Spawner.getInstance().setCamera(camera);
+        listener = new Listener(this, ep);
+        Gdx.input.setInputProcessor(listener);
 
         running = false;
     }
 
-    public void render (float delta) {
+    public void render(float delta) {
 
         //initialisation de la limite fps
 
@@ -53,54 +52,60 @@ public class EditorScreen extends ScreenAdapter {
 
         // gestion des entrées utilisateur
 
-        if (Gdx.input.isTouched()) {
-            Vector3 mouse = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0.f);
-            camera.unproject(mouse);
-            ep.check(mouse.x, mouse.y);
-        }
-        Spawner.getInstance().manage();
+        //géré par le Listener
 
         // mise à jour du monde
 
         if (running) {
-            monde.getMonde().step(Gdx.graphics.getDeltaTime(), 10, 10);
+            monde.getMonde().step(delta, 10, 10);
         }
 
         // affichage
 
         sb.begin();
-        sb.draw(TextureFactory.getBackground(), 0, 0, DucksEditor.SCREEN_WIDTH, DucksEditor.SCREEN_HEIGHT); //affiche le fond et l'étire
+        sb.draw(TextureFactory.getBackground(), 0, 0, DucksEditor.UM_WIDTH, DucksEditor.UM_HEIGHT); //affiche le fond et l'étire
         ep.draw(sb);
         monde.draw(sb);
-        Spawner.getInstance().draw();
         sb.end();
 
-        sr.begin(ShapeRenderer.ShapeType.Line);
+        /*sr.begin(ShapeRenderer.ShapeType.Line);
         ep.draw(sr);
         monde.draw(sr);
-        sr.end();
+        sr.end();*/
 
         //limite fps
 
         timeDiff = System.currentTimeMillis() - beginTime;
-        sleepTime = (int)((1/DucksEditor.FPS) - timeDiff);
+        sleepTime = (int) ((1 / DucksEditor.FPS) - timeDiff);
 
-        if(sleepTime > 0){
+        if (sleepTime > 0) {
             try {
                 Thread.sleep(sleepTime);
-            } catch (InterruptedException e) {}
+            } catch (InterruptedException e) {
+            }
         }
     }
 
-    public void dispose () {
+    public void dispose() {
         monde.dispose();
         sb.dispose();
         sr.dispose();
     }
 
-    public void run () {
-        running = true;
-        monde.run();
+    public void setRunning(boolean b) {
+        running = b;
+    }
+
+    public OrthographicCamera getCamera() {
+        return camera;
+    }
+
+    public Monde getMonde() {
+        return monde;
+    }
+
+    public EditorPanel getEditorPanel() {
+        return ep;
     }
 
 }

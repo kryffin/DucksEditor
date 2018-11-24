@@ -11,7 +11,6 @@ import fr.ul.duckseditor.DucksEditor;
 import fr.ul.duckseditor.model.objets.Objet;
 import fr.ul.duckseditor.model.objets.bloc.Carre;
 import fr.ul.duckseditor.model.objets.bloc.Rectangle;
-import fr.ul.duckseditor.model.objets.personnage.Bandit;
 import fr.ul.duckseditor.model.objets.personnage.Prisonnier;
 
 import java.util.ArrayList;
@@ -21,10 +20,9 @@ public class Monde {
     private World monde;
     private static Body[] bords;
     private ArrayList<Objet> objets;
-    private ArrayList<Objet> objetsRun;
 
     public Monde () {
-        monde = new World(new Vector2(0.f, -10.f), false);
+        monde = new World(new Vector2(0.f, -10.f), true);
 
         bords = new Body[4];
 
@@ -33,18 +31,6 @@ public class Monde {
         //corps
 
         objets = new ArrayList<Objet>();
-
-        Objet p = new Prisonnier(monde, new Vector2(450.f, 700.f));
-        objets.add(p);
-
-        Objet b = new Bandit(monde, new Vector2(700.f, 800.f));
-        objets.add(b);
-
-        Objet c = new Carre(monde, new Vector2(700.f, 500.f));
-        objets.add(c);
-
-        Objet r = new Rectangle(monde, new Vector2(800.f, 500.f));
-        objets.add(r);
     }
 
     public void spawn (Objet o) {
@@ -53,6 +39,14 @@ public class Monde {
 
     public void spawnCarre (int x, int y) {
         objets.add(new Carre(monde, new Vector2((float)x, (float)y)));
+    }
+
+    public void spawnRectangle (int x, int y) {
+        objets.add(new Rectangle(monde, new Vector2((float)x, (float)y)));
+    }
+
+    public void spawnPrisonnier (int x, int y) {
+        objets.add(new Prisonnier(monde, new Vector2((float)x, (float)y)));
     }
 
     public void ajouterCarre () {
@@ -69,7 +63,7 @@ public class Monde {
         bords[0] = monde.createBody(def);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(DucksEditor.SCREEN_WIDTH, DucksEditor.SCREEN_HEIGHT/6);
+        shape.setAsBox(DucksEditor.UM_WIDTH, DucksEditor.UM_HEIGHT/6);
         bords[0].createFixture(shape, 0.0f);
 
         //bord gauche
@@ -81,31 +75,31 @@ public class Monde {
         bords[1] = monde.createBody(def);
 
         shape = new PolygonShape();
-        shape.setAsBox(5.f, DucksEditor.SCREEN_HEIGHT * 2); //size of 5 outside the screen in width
+        shape.setAsBox(5.f, DucksEditor.UM_HEIGHT * 2); //size of 5 outside the screen in width
         bords[1].createFixture(shape, 0.0f);
 
         //bord droit
 
         def = new BodyDef();
         def.type = BodyDef.BodyType.StaticBody;
-        def.position.set(new Vector2(DucksEditor.SCREEN_WIDTH, 0.f));
+        def.position.set(new Vector2(DucksEditor.UM_WIDTH, 0.f));
 
         bords[2] = monde.createBody(def);
 
         shape = new PolygonShape();
-        shape.setAsBox(5.f, DucksEditor.SCREEN_HEIGHT * 2); //size of 5 outside the screen in width
+        shape.setAsBox(5.f, DucksEditor.UM_HEIGHT * 2); //size of 5 outside the screen in width
         bords[2].createFixture(shape, 0.0f);
 
         //bord du haut
 
         def = new BodyDef();
         def.type = BodyDef.BodyType.StaticBody;
-        def.position.set(new Vector2(0.f, DucksEditor.SCREEN_HEIGHT * 2));
+        def.position.set(new Vector2(0.f, DucksEditor.UM_HEIGHT * 2));
 
         bords[3] = monde.createBody(def);
 
         shape = new PolygonShape();
-        shape.setAsBox(DucksEditor.SCREEN_WIDTH, 5.f); //size of 5 outside the screen in width
+        shape.setAsBox(DucksEditor.UM_WIDTH, 5.f); //size of 5 outside the screen in width
         bords[3].createFixture(shape, 0.0f);
         shape.dispose();
     }
@@ -131,12 +125,8 @@ public class Monde {
         monde.dispose();
     }
 
-    public Objet getObjet (int i) {
-        return objets.get(i);
-    }
-
-    public void run () {
-        objetsRun = new ArrayList<Objet>(objets);
+    public ArrayList<Objet> getObjets () {
+        return objets;
     }
 
 }

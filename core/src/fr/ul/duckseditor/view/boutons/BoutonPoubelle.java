@@ -17,6 +17,11 @@ public class BoutonPoubelle extends Bouton {
     }
 
     @Override
+    public void action() {
+        //rien
+    }
+
+    @Override
     public String toString() {
         return "BoutonPoubelle";
     }

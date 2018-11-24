@@ -2,11 +2,9 @@ package fr.ul.duckseditor.view.boutons.boutonsPersonnages;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import fr.ul.duckseditor.DucksEditor;
 import fr.ul.duckseditor.dataFactory.TextureFactory;
 import fr.ul.duckseditor.model.Monde;
-import fr.ul.duckseditor.model.Spawner;
 import fr.ul.duckseditor.view.boutons.Bouton;
 
 public class BoutonPrisonnier extends Bouton {
@@ -22,7 +20,7 @@ public class BoutonPrisonnier extends Bouton {
 
     @Override
     public void action() {
-        Spawner.getInstance().spawnPrisonnier();
+        monde.spawnPrisonnier(DucksEditor.UM_WIDTH/2, DucksEditor.UM_HEIGHT/2);
     }
 
     @Override

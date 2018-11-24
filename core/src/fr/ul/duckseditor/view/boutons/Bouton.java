@@ -31,9 +31,10 @@ public abstract class Bouton {
         def.position.set(new Vector2(position));
 
         corps = monde.getMonde().createBody(def);
+        corps.setUserData(this);
 
-        width = DucksEditor.widthToScreen(2);
-        height = DucksEditor.heightToScreen(2);
+        width = 2;
+        height = 2;
 
         x = position.x;
         y = position.y;
@@ -54,14 +55,17 @@ public abstract class Bouton {
      * @param heightUM hauteur en ULM du bouton
      */
     public Bouton (Monde monde, Vector2 position, int widthUM, int heightUM) {
+        this.monde = monde;
+
         BodyDef def = new BodyDef();
         def.type = BodyDef.BodyType.StaticBody;
         def.position.set(new Vector2(position));
 
         corps = monde.getMonde().createBody(def);
+        corps.setUserData(this);
 
-        width = DucksEditor.widthToScreen(widthUM);
-        height = DucksEditor.heightToScreen(heightUM);
+        width = widthUM;
+        height = heightUM;
 
         x = position.x;
         y = position.y;
@@ -81,13 +85,16 @@ public abstract class Bouton {
      * @param diameterUM rayon du bouton en UM
      */
     public Bouton (Monde monde, Vector2 position, int diameterUM) {
+        this.monde = monde;
+
         BodyDef def = new BodyDef();
         def.type = BodyDef.BodyType.StaticBody;
         def.position.set(new Vector2(position));
 
         corps = monde.getMonde().createBody(def);
+        corps.setUserData(this);
 
-        this.diameter = DucksEditor.widthToScreen(diameterUM);
+        this.diameter = diameterUM;
         width = diameter;
         height = diameter;
 
@@ -113,22 +120,10 @@ public abstract class Bouton {
         }
     }
 
-    public void check (float mouseX, float mouseY) {
-        //si c'est un cercle on teste avec son diametre
-        if (diameter != 0.f) {
-            if (mouseX < x + width - diameter/2 && mouseX > x - diameter/2 && mouseY < y + height - diameter/2 && mouseY > y - diameter/2) {
-                action();
-                System.out.println("CLICK");
-            }
-        } else {
-            if (mouseX < x + width && mouseX > x && mouseY < y + height && mouseY > y) {
-                action();
-            }
-        }
-    }
+    public abstract void action ();
 
-    public void action () {
-        System.out.println(toString());
+    public Body getCorps () {
+        return corps;
     }
 
 }

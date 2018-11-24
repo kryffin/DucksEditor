@@ -6,13 +6,25 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import fr.ul.duckseditor.dataFactory.TextureFactory;
 
+/**
+ * @author KLEINHENTZ 'Kryffin' Nicolas
+ */
 public class Bandit extends Personnage {
 
+    /**
+     * Constructeur appelant le constructeur de Personnage
+     * @param monde monde dans lequel placer le personnage
+     * @param position position dans laquelle l'y placer
+     */
     public Bandit(World monde, Vector2 position) {
         super(monde, position);
         pv = 20;
     }
 
+    /**
+     * Méthode affichant à l'écran le bandit
+     * @param sb SpriteBatch utiliser pour l'affichage
+     */
     @Override
     public void draw(SpriteBatch sb) {
         float rotation = (float)Math.toDegrees(corps.getAngle());

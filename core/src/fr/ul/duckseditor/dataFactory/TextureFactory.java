@@ -3,6 +3,9 @@ package fr.ul.duckseditor.dataFactory;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 
+/**
+ * @author KLEINHENTZ 'Kryffin' Nicolas
+ */
 public class TextureFactory {
 
     private static Texture background = new Texture(Gdx.files.internal("images/background.png"));

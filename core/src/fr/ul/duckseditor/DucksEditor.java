@@ -4,22 +4,53 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.Vector2;
 import fr.ul.duckseditor.view.EditorScreen;
 
+/**
+ * @author KLEINHENTZ 'Kryffin' Nicolas
+ */
 public class DucksEditor extends Game {
 
-	public static int SCREEN_WIDTH = 1920;
-	public static int SCREEN_HEIGHT = 1080;
-	public static int UM_WIDTH = 64;
-	public static int UM_HEIGHT = 36;
-	public static int FPS = 30;
+    /**
+     * constante statique sur la largeur réelle de l'écran
+     */
+	public static final int SCREEN_WIDTH = 1920;
 
+    /**
+     * constante statique sur la hauteur réelle de l'écran
+     */
+	public static final int SCREEN_HEIGHT = 1080;
+
+    /**
+     * constante statique sur la largeur en UM de l'écran
+     */
+	public static final int UM_WIDTH = 64;
+
+    /**
+     * constante statique sur la hauteur en UM de l'écran
+     */
+	public static final int UM_HEIGHT = 36;
+
+    /**
+     * constante statique sur la limite de FPS
+     */
+	public static final int FPS = 30;
+
+    /**
+     * écran du jeu
+     */
     private EditorScreen es;
 
+    /**
+     * Méthode de création de l'écran
+     */
     @Override
 	public void create () {
 		es = new EditorScreen();
 		setScreen(es);
 	}
 
+    /**
+     * Disposition de l'écran
+     */
     @Override
     public void dispose() {
         es.dispose();

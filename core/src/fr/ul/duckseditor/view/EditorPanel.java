@@ -10,15 +10,33 @@ import fr.ul.duckseditor.view.boutons.*;
 import fr.ul.duckseditor.view.boutons.boutonsBlocks.BoutonCarre;
 import fr.ul.duckseditor.view.boutons.boutonsBlocks.BoutonRectangle;
 import fr.ul.duckseditor.view.boutons.boutonsPersonnages.BoutonPrisonnier;
-
 import java.util.ArrayList;
 
+/**
+ * @author KLEINHENTZ 'Kryffin' Nicolas
+ */
 public class EditorPanel {
 
+    /**
+     * lmargeur du panneau
+     */
     private float width;
+
+    /**
+     * hauteur du panneau
+     */
     private float height;
+
+    /**
+     * liste des boutons du panneau
+     */
     private ArrayList<Bouton> boutons;
 
+    /**
+     * Constructeur avec le monde dans lequel ajouter les boutons ainsi que l'EditorScreen dans lequel ajouter le panneau
+     * @param monde
+     * @param es
+     */
     public EditorPanel (Monde monde, EditorScreen es) {
         width = DucksEditor.UM_WIDTH / 6;
         height = DucksEditor.UM_HEIGHT;
@@ -47,6 +65,10 @@ public class EditorPanel {
 
     }
 
+    /**
+     * Méthode affichant le fond du panneau puis appel l'affichage des boutons un a un
+     * @param sb
+     */
     public void draw (SpriteBatch sb) {
         sb.setColor(1.f, 1.f, 1.f, 0.75f);
         sb.draw(TextureFactory.getEditPanel(), 0.f, 0.f, width, height);
@@ -62,10 +84,16 @@ public class EditorPanel {
         }
     }
 
+    /**
+     * @return liste des boutons du panneau
+     */
     public ArrayList<Bouton> getBoutons () {
         return boutons;
     }
 
+    /**
+     * @return bouton poubelle
+     */
     public Bouton getPoubelle () {
         return boutons.get(0);
     }

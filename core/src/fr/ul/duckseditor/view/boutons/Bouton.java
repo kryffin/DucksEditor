@@ -5,17 +5,46 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import fr.ul.duckseditor.DucksEditor;
 import fr.ul.duckseditor.model.Monde;
 
+/**
+ * @author KLEINHENTZ 'Kryffin' Nicolas
+ */
 public abstract class Bouton {
 
+    /**
+     * Monde dans lequel créer le bouton
+     */
     protected Monde monde;
+
+    /**
+     * corps du bouton
+     */
     protected Body corps;
+
+    /**
+     * largeur du bouton
+     */
     protected float width;
+
+    /**
+     * hauteur du bouton
+     */
     protected float height;
+
+    /**
+     * diametre du bouton
+     */
     protected float diameter = 0.f;
+
+    /**
+     * position x du bouton
+     */
     protected float x;
+
+    /**
+     * position y du bouton
+     */
     protected float y;
 
     /**
@@ -109,6 +138,10 @@ public abstract class Bouton {
         cercle.dispose();
     }
 
+    /**
+     * Methode d'affichage du bouton à l'écran
+     * @param sb SpriteBatch utilisé pour l'affichage
+     */
     public abstract void draw (SpriteBatch sb);
 
     public void draw (ShapeRenderer sr) {
@@ -120,8 +153,14 @@ public abstract class Bouton {
         }
     }
 
+    /**
+     * Action à effectuer lors du clic sur le bouton
+     */
     public abstract void action ();
 
+    /**
+     * @return corps du bouton
+     */
     public Body getCorps () {
         return corps;
     }

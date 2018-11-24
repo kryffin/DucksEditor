@@ -4,11 +4,18 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import fr.ul.duckseditor.DucksEditor;
 import fr.ul.duckseditor.dataFactory.TextureFactory;
 
+/**
+ * @author KLEINHENTZ 'Kryffin' Nicolas
+ */
 public class Rectangle extends Bloc {
 
+    /**
+     * Constructeur appelant le constructeur de Bloc
+     * @param monde monde dans lequel placer le rectangle
+     * @param position position dans laquelle placer le rectangle
+     */
     public Rectangle (World monde, Vector2 position) {
         super(monde, position);
 
@@ -26,6 +33,10 @@ public class Rectangle extends Bloc {
         carre.dispose();
     }
 
+    /**
+     * Méthode affichant à l'écran le rectangle
+     * @param sb SpriteBatch utiliser pour l'affichage
+     */
     @Override
     public void draw(SpriteBatch sb) {
         float rotation = (float)Math.toDegrees(corps.getAngle());

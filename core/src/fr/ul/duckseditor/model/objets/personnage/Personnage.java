@@ -1,17 +1,29 @@
 package fr.ul.duckseditor.model.objets.personnage;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import fr.ul.duckseditor.DucksEditor;
 import fr.ul.duckseditor.model.objets.Objet;
 
+/**
+ * @author KLEINHENTZ 'Kryffin' Nicolas
+ */
 public abstract class Personnage extends Objet {
 
+    /**
+     * points de vie du personnage (pas utilisé)
+     */
     protected int pv;
+
+    /**
+     * diametre du cercle représentant le personnage
+     */
     protected float diameter = 1;
 
+    /**
+     * Constructeur avec le monde dans lequel placer le personnage ainsi que sa position
+     * @param monde monde dans lequel placer le personnage
+     * @param position position où l'y placer
+     */
     public Personnage (World monde, Vector2 position) {
         BodyDef def = new BodyDef();
         def.type = BodyDef.BodyType.DynamicBody;

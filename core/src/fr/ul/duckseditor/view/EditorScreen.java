@@ -101,12 +101,10 @@ public class EditorScreen extends ScreenAdapter {
 
     public void supprimerObjets (ArrayList<Body> objets) {
         Iterator<Objet> iteratorMonde = monde.getObjets().iterator();
-        Iterator<Body> iteratorObjets = objets.iterator();
 
         while (iteratorMonde.hasNext()) {
             Objet o = iteratorMonde.next();
-            while (iteratorObjets.hasNext()) {
-                Body b = iteratorObjets.next();
+            for (Body b : objets) {
 
                 if (o.getCorps() == b) {
                     iteratorMonde.remove();

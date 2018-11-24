@@ -7,6 +7,7 @@ todo list :
 - add level selector
 - hotfixes
 - android testing
+- javadoc
 
 done :
 - review gravity

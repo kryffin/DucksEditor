@@ -79,6 +79,14 @@ public class Listener implements InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        Vector3 mouse = new Vector3(screenX, screenY, 0.f);
+        es.getCamera().unproject(mouse);
+
+        for (Fixture f : ep.getPoubelle().getCorps().getFixtureList()) {
+            if (f.testPoint(mouse.x, mouse.y)) {
+                es.supprimerObjets(objetsSelectionnes);
+            }
+        }
         objetsSelectionnes = new ArrayList<Body>();
         return true;
     }

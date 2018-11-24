@@ -66,4 +66,8 @@ public class EditorPanel {
         return boutons;
     }
 
+    public Bouton getPoubelle () {
+        return boutons.get(0);
+    }
+
 }

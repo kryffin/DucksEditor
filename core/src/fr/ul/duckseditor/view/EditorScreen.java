@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import fr.ul.duckseditor.DucksEditor;
 import fr.ul.duckseditor.dataFactory.TextureFactory;
@@ -14,11 +15,14 @@ import fr.ul.duckseditor.listener.Listener;
 import fr.ul.duckseditor.model.Monde;
 import fr.ul.duckseditor.model.objets.Objet;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Iterator;
+
 public class EditorScreen extends ScreenAdapter {
 
     private Listener listener;
     private SpriteBatch sb;
-    private ShapeRenderer sr;
     private OrthographicCamera camera;
     private Monde monde;
     private EditorPanel ep;
@@ -30,12 +34,10 @@ public class EditorScreen extends ScreenAdapter {
 
     public EditorScreen() {
         sb = new SpriteBatch();
-        sr = new ShapeRenderer();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, DucksEditor.UM_WIDTH, DucksEditor.UM_HEIGHT);
         camera.update();
         sb.setProjectionMatrix(camera.combined);
-        sr.setProjectionMatrix(camera.combined);
 
         monde = new Monde();
 
@@ -73,9 +75,9 @@ public class EditorScreen extends ScreenAdapter {
         ep.draw(sb);
         monde.draw(sb);
 
-        Matrix4 debugMatrix=new Matrix4(camera.combined);
-        Box2DDebugRenderer debugRenderer=new Box2DDebugRenderer();
-        //debugRenderer.render(monde.getMonde(), debugMatrix);
+        Matrix4 debugMatrix = new Matrix4(camera.combined);
+        Box2DDebugRenderer debugRenderer = new Box2DDebugRenderer();
+        debugRenderer.render(monde.getMonde(), debugMatrix);
 
         sb.end();
 
@@ -95,7 +97,24 @@ public class EditorScreen extends ScreenAdapter {
     public void dispose() {
         monde.dispose();
         sb.dispose();
-        sr.dispose();
+    }
+
+    public void supprimerObjets (ArrayList<Body> objets) {
+        Iterator<Objet> iteratorMonde = monde.getObjets().iterator();
+        Iterator<Body> iteratorObjets = objets.iterator();
+
+        while (iteratorMonde.hasNext()) {
+            Objet o = iteratorMonde.next();
+            while (iteratorObjets.hasNext()) {
+                Body b = iteratorObjets.next();
+
+                if (o.getCorps() == b) {
+                    iteratorMonde.remove();
+                    monde.supprimer(o);
+                }
+
+            }
+        }
     }
 
     public void setRunning(boolean b) {

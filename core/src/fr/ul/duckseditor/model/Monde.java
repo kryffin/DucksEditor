@@ -82,7 +82,7 @@ public class Monde {
 
         def = new BodyDef();
         def.type = BodyDef.BodyType.StaticBody;
-        def.position.set(new Vector2(DucksEditor.UM_WIDTH, 0.f));
+        def.position.set(new Vector2(DucksEditor.UM_WIDTH + 5.f, 0.f));
 
         bords[2] = monde.createBody(def);
 
@@ -116,6 +116,11 @@ public class Monde {
 
     public void dispose () {
         monde.dispose();
+    }
+
+    public void supprimer (Objet o) {
+        monde.destroyBody(o.getCorps());
+        objets.remove(o);
     }
 
     public ArrayList<Objet> getObjets () {

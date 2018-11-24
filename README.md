@@ -9,6 +9,6 @@ todo list :
 - android testing
 
 done :
-x review gravity
-x add usable trash to delete items
-x review mouse position when moving objects
+- review gravity
+- add usable trash to delete items
+- review mouse position when moving objects

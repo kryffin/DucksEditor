@@ -35,9 +35,19 @@ public class Listener implements InputProcessor {
     private ArrayList<Body> objetsSelectionnes;
 
     /**
-     * Position du porécédent contact pour le cas d'un glisser/déposer
+     * Position du précédent contact pour le cas d'un glisser/déposer
      */
     private Vector2 lastContactPos;
+
+    /**
+     * vecteur précédent entre l'origine et le contact pour la rotation
+     */
+    private Vector2 vectorPrec;
+
+    /**
+     * Type du bouton pressé (click droit/gauche)
+     */
+    private int buttonType;
 
     /**
      * Constructeur liant l'EditorScreen et l'EditorPanel
@@ -109,7 +119,12 @@ public class Listener implements InputProcessor {
                 if (oMonde.getCorps() == oSelectionne) {
                     //retenue de la position du contact et arrêt de l'animation si un objet a été sélectionné
                     lastContactPos = new Vector2(contact.x, contact.y);
-                    es.setRunning(false);
+
+                    //retenue du vecteur actuel entre l'origine de l'objet et le contact
+                    vectorPrec = new Vector2(contact.x - oMonde.getCorps().getPosition().x, contact.y - oMonde.getCorps().getPosition().y);
+
+                    es.setRunning(false); //arrêt de la simulation si un objet est touché
+                    buttonType = button;
                 }
             }
             //parcours des boutons de l'EditorPanel
@@ -161,25 +176,47 @@ public class Listener implements InputProcessor {
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         //récupération du contact dans un vecteur
-        Vector3 mouse = new Vector3(screenX, screenY, 0.f);
-        es.getCamera().unproject(mouse);
+        Vector3 contact = new Vector3(screenX, screenY, 0.f);
+        es.getCamera().unproject(contact);
 
         //parcours des objets delectionnés
         for (Body oSelectionne : objetsSelectionnes) {
             //parcours des objets du monde
             for (Objet oMonde : es.getMonde().getObjets()) {
                 if (oMonde.getCorps() == oSelectionne) {
-                    //création d'un vecteur entre le précédent contact et l'actuel et déplacement des objets selectionnés par rapport à ce vecteur
-                    Objet o = (Objet)oSelectionne.getUserData();
 
-                    Vector2 vector = new Vector2(mouse.x - lastContactPos.x, mouse.y - lastContactPos.y);
-                    o.getCorps().setTransform(o.getCorps().getPosition().x + vector.x, o.getCorps().getPosition().y + vector.y, o.getCorps().getAngle());
+                    //translation si click droit, rotation sinon
+                    if (buttonType == Input.Buttons.LEFT) {
 
-                    //mise à jour du dernier contact
-                    lastContactPos.set(mouse.x, mouse.y);
+                        //création d'un vecteur entre le précédent contact et l'actuel et déplacement des objets selectionnés par rapport à ce vecteur
+                        Objet o = (Objet)oSelectionne.getUserData();
+
+                        Vector2 vector = new Vector2(contact.x - lastContactPos.x, contact.y - lastContactPos.y);
+                        o.getCorps().setTransform(o.getCorps().getPosition().x + vector.x, o.getCorps().getPosition().y + vector.y, o.getCorps().getAngle());
+
+                        //mise à jour du dernier contact
+                        lastContactPos.set(contact.x, contact.y);
+
+                    } else {
+
+                        Objet o = (Objet)oSelectionne.getUserData();
+
+                        //création d'un vecteur entre l'origine de l'objet et le contact actuel
+                        Vector2 vectorCrt = new Vector2(contact.x - o.getCorps().getPosition().x, contact.y - o.getCorps().getPosition().y);
+
+                        //mise à jour de la rotation de l'objet par rapport à l'angle entre le vecteur actuel et le vecteur précédement enregistré
+                        o.getCorps().setTransform(o.getCorps().getPosition().x, o.getCorps().getPosition().y, o.getCorps().getAngle() + vectorPrec.angleRad(vectorCrt));
+
+                        //mise à jour du vecteur précédent
+                        vectorPrec.set(vectorCrt.x, vectorCrt.y);
+
+                    }
+
                 }
             }
         }
+
+
 
         return true;
     }

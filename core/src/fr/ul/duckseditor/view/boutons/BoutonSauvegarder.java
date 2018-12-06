@@ -27,14 +27,6 @@ public class BoutonSauvegarder extends Bouton {
         sb.draw(TextureFactory.getSave(), corps.getPosition().x, corps.getPosition().y, width, height);
     }
 
-    /**
-     * todo action
-     */
-    @Override
-    public void action() {
-        //sauvegarde le niveau
-    }
-
     @Override
     public String toString() {
         return "BoutonSauvegarder";

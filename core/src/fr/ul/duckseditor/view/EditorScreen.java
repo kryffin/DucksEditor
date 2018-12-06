@@ -2,12 +2,14 @@ package fr.ul.duckseditor.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import fr.ul.duckseditor.DucksEditor;
+import fr.ul.duckseditor.control.FileChooser;
 import fr.ul.duckseditor.dataFactory.TextureFactory;
 import fr.ul.duckseditor.control.Listener;
 import fr.ul.duckseditor.model.Monde;
@@ -66,6 +68,13 @@ public class EditorScreen extends ScreenAdapter {
     private boolean running;
 
     /**
+     * gestionnaire des fichiers de sauvegarde
+     */
+    private FileChooser fc;
+
+    private boolean showLoad;
+
+    /**
      * Constructeur vide initialisant l'écran
      */
     public EditorScreen() {
@@ -75,13 +84,17 @@ public class EditorScreen extends ScreenAdapter {
         camera.update();
         sb.setProjectionMatrix(camera.combined);
 
-        monde = new Monde();
+        monde = new Monde(this);
 
         ep = new EditorPanel(monde, this);
         listener = new Listener(this, ep);
         Gdx.input.setInputProcessor(listener);
 
         running = false;
+
+        fc = new FileChooser(this);
+
+        showLoad = false;
     }
 
     /**
@@ -110,15 +123,19 @@ public class EditorScreen extends ScreenAdapter {
         // affichage
 
         sb.begin();
-
-        sb.draw(TextureFactory.getBackground(), 0, 0, DucksEditor.UM_WIDTH, DucksEditor.UM_HEIGHT); //affiche le fond et l'étire
-        ep.draw(sb);
-        monde.draw(sb);
+        if (showLoad) {
+            fc.draw(sb);
+        } else {
+            sb.draw(TextureFactory.getBackground(), 0, 0, DucksEditor.UM_WIDTH, DucksEditor.UM_HEIGHT); //affiche le fond et l'étire
+            ep.draw(sb);
+            monde.draw(sb);
+            System.out.println(monde.getObjets());
+        }
 
         //affichage debug
         Matrix4 debugMatrix = new Matrix4(camera.combined);
         Box2DDebugRenderer debugRenderer = new Box2DDebugRenderer();
-        debugRenderer.render(monde.getMonde(), debugMatrix);
+        //debugRenderer.render(monde.getMonde(), debugMatrix);
 
         sb.end();
 
@@ -164,6 +181,53 @@ public class EditorScreen extends ScreenAdapter {
         }
     }
 
+    public void sauvegarder (boolean override) {
+        StringBuilder str = new StringBuilder();
+        for (Objet o : monde.getObjets()) {
+            str.append(o.toString() + "\n");
+        }
+
+        System.out.println(str.toString());
+
+        fc.update();
+
+        fc.save(str.toString(), override);
+    }
+
+    public void charger () {
+        fc.load();
+    }
+
+    public void chargerNiveau (String niveau) {
+        monde.clean();
+
+        String[] lines = niveau.split(System.getProperty("line.separator"));
+        for (int i = 0; i < lines.length; i++) {
+            System.out.println(lines[i]);
+            String[] description = lines[i].split(":");
+            if (description[0].equals("Rectangle")) {
+                monde.spawnRectangle(Float.parseFloat(description[1]), Float.parseFloat(description[2]), Float.parseFloat(description[3]));
+                System.out.println("Spawn de rectangle");
+            } else if (description[0].equals("Carre")) {
+                monde.spawnCarre(Float.parseFloat(description[1]), Float.parseFloat(description[2]), Float.parseFloat(description[3]));
+                System.out.println("Sapwn de carre");
+            } else if (description[0].equals("Prisonnier")) {
+                monde.spawnPrisonnier(Float.parseFloat(description[1]), Float.parseFloat(description[2]), Float.parseFloat(description[3]));
+                System.out.println("spawn de prisonnier");
+            }
+        }
+
+        System.out.println(monde.getObjets());
+
+        quitterCharger();
+    }
+
+    public void quitterCharger () {
+        System.out.println("Fin de sélection de niveau");
+        Gdx.input.setInputProcessor(listener);
+        setShowLoad(false);
+    }
+
     /**
      * Setter sur l'animation de l'écran
      * @param b vrai si l'animation marche, faux sinon
@@ -191,6 +255,10 @@ public class EditorScreen extends ScreenAdapter {
      */
     public EditorPanel getEditorPanel() {
         return ep;
+    }
+
+    public void setShowLoad (boolean b) {
+        showLoad = b;
     }
 
 }

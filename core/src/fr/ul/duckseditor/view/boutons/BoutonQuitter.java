@@ -2,6 +2,7 @@ package fr.ul.duckseditor.view.boutons;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import fr.ul.duckseditor.dataFactory.TextureFactory;
 import fr.ul.duckseditor.model.Monde;
 
@@ -12,11 +13,11 @@ public class BoutonQuitter extends Bouton {
 
     /**
      * Constructeur appelant le constructeur de Bouton
-     * @param monde
+     * @param world
      * @param position
      */
-    public BoutonQuitter (Monde monde, Vector2 position) {
-        super(monde, position);
+    public BoutonQuitter (World world, Vector2 position) {
+        super(world, position);
     }
 
     /**
@@ -25,14 +26,6 @@ public class BoutonQuitter extends Bouton {
      */
     public void draw (SpriteBatch sb) {
         sb.draw(TextureFactory.getCancel(), corps.getPosition().x, corps.getPosition().y, width, height);
-    }
-
-    /**
-     * todo action
-     */
-    @Override
-    public void action() {
-        //quitter l'appli?
     }
 
     @Override

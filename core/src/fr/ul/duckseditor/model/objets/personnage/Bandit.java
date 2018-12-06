@@ -36,4 +36,9 @@ public class Bandit extends Personnage {
         s.draw(sb);
     }
 
+    @Override
+    public String toString() {
+        return "Bandit:" + corps.getPosition().x + ":" + corps.getPosition().y + ":" + corps.getAngle();
+    }
+
 }

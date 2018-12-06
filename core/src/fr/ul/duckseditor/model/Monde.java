@@ -11,12 +11,17 @@ import fr.ul.duckseditor.model.objets.Objet;
 import fr.ul.duckseditor.model.objets.bloc.Carre;
 import fr.ul.duckseditor.model.objets.bloc.Rectangle;
 import fr.ul.duckseditor.model.objets.personnage.Prisonnier;
+import fr.ul.duckseditor.view.EditorScreen;
+import fr.ul.duckseditor.view.boutons.Bouton;
+
 import java.util.ArrayList;
 
 /**
  * @author KLEINHENTZ 'Kryffin' Nicolas
  */
 public class Monde {
+
+    private EditorScreen es;
 
     /**
      * World contenant les objets
@@ -36,7 +41,9 @@ public class Monde {
     /**
      * Constructeur vide initialisant le monde avec une gravité de -10.f ainsi que les 4 bords
      */
-    public Monde () {
+    public Monde (EditorScreen es) {
+        this.es = es;
+
         monde = new World(new Vector2(0.f, -10.f), true);
 
         bords = new Body[4];
@@ -61,8 +68,12 @@ public class Monde {
      * @param x position x de l'objet
      * @param y position y de l'objet
      */
-    public void spawnCarre (int x, int y) {
-        objets.add(new Carre(monde, new Vector2((float)x, (float)y)));
+    public void spawnCarre (float x, float y) {
+        objets.add(new Carre(monde, new Vector2(x, y)));
+    }
+
+    public void spawnCarre (float x, float y, float angle) {
+        objets.add(new Carre(monde, new Vector2(x, y), angle));
     }
 
     /**
@@ -70,8 +81,12 @@ public class Monde {
      * @param x position x de l'objet
      * @param y position y de l'objet
      */
-    public void spawnRectangle (int x, int y) {
-        objets.add(new Rectangle(monde, new Vector2((float)x, (float)y)));
+    public void spawnRectangle (float x, float y) {
+        objets.add(new Rectangle(monde, new Vector2(x, y)));
+    }
+
+    public void spawnRectangle (float x, float y, float angle) {
+        objets.add(new Rectangle(monde, new Vector2(x, y), angle));
     }
 
     /**
@@ -79,8 +94,12 @@ public class Monde {
      * @param x position x de l'objet
      * @param y position y de l'objet
      */
-    public void spawnPrisonnier (int x, int y) {
-        objets.add(new Prisonnier(monde, new Vector2((float)x, (float)y)));
+    public void spawnPrisonnier (float x, float y) {
+        objets.add(new Prisonnier(monde, new Vector2(x, y)));
+    }
+
+    public void spawnPrisonnier (float x, float y, float angle) {
+        objets.add(new Prisonnier(monde, new Vector2(x, y), angle));
     }
 
     private void constructionBords () {
@@ -165,6 +184,37 @@ public class Monde {
     public void supprimer (Objet o) {
         monde.destroyBody(o.getCorps());
         objets.remove(o);
+    }
+
+    public void action (ArrayList<Body> objetsSelectionnes, ArrayList<Bouton> boutons) {
+        for (Body body : objetsSelectionnes) {
+            for (Bouton bouton : boutons) {
+                if (body == bouton.getCorps() && bouton.toString().equals("BoutonSauvegarder")) {
+                    es.sauvegarder(false);
+                } else if (body == bouton.getCorps() && bouton.toString().equals("BoutonRemplacer")) {
+                    es.sauvegarder(true);
+                } else if (body == bouton.getCorps() && bouton.toString().equals("BoutonCharger")) {
+                    es.charger();
+                } else if (body == bouton.getCorps() && bouton.toString().equals("BoutonCarre")) {
+                    spawnCarre(DucksEditor.UM_WIDTH/2, DucksEditor.UM_HEIGHT/2);
+                } else if (body == bouton.getCorps() && bouton.toString().equals("BoutonRectangle")) {
+                    spawnRectangle(DucksEditor.UM_WIDTH/2, DucksEditor.UM_HEIGHT/2);
+                } else if (body == bouton.getCorps() && bouton.toString().equals("BoutonPrisonnier")) {
+                    spawnPrisonnier(DucksEditor.UM_WIDTH/2, DucksEditor.UM_HEIGHT/2);
+                } else if (body == bouton.getCorps() && bouton.toString().equals("BoutonJouer")) {
+                    es.setRunning(true);
+                } else if (body == bouton.getCorps() && bouton.toString().equals("BoutonStop")) {
+                    es.setRunning(false);
+                }
+            }
+        }
+    }
+
+    public void clean () {
+        for (Objet o : objets) {
+            monde.destroyBody(o.getCorps());
+        }
+        objets = new ArrayList<Objet>();
     }
 
     /**

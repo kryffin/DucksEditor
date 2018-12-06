@@ -27,14 +27,6 @@ public class BoutonRemplacer extends Bouton {
         sb.draw(TextureFactory.getRewrite(), corps.getPosition().x, corps.getPosition().y, width, height);
     }
 
-    /**
-     * todo action
-     */
-    @Override
-    public void action() {
-        //ecrase le niveau
-    }
-
     @Override
     public String toString() {
         return "BoutonRemplacer";

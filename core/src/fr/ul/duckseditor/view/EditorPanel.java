@@ -45,9 +45,6 @@ public class EditorPanel {
 
         //première ligne
         boutons.add(new BoutonPoubelle(monde, new Vector2(width/4 - (width/4) + (width/40), DucksEditor.UM_HEIGHT - 2 - 1.f)));
-        boutons.add(new BoutonFlecheGauche(monde, new Vector2((width/4) * 2 - (width/4) + (width/40), DucksEditor.UM_HEIGHT - 2 - 1.f)));
-        boutons.add(new BoutonFlecheDroite(monde, new Vector2((width/4) * 3 - (width/4) + (width/40), DucksEditor.UM_HEIGHT - 2 - 1.f)));
-        boutons.add(new BoutonQuitter(monde, new Vector2((width/4) * 4 - (width/4) + (width/40), DucksEditor.UM_HEIGHT - 2 - 1.f)));
 
         //seconde ligne
         boutons.add(new BoutonCharger(monde, new Vector2(width/4 - (width/4) + (width/40), DucksEditor.UM_HEIGHT - 4 - 2.f)));

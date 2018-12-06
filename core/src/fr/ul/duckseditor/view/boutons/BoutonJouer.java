@@ -35,14 +35,6 @@ public class BoutonJouer extends Bouton {
         sb.draw(TextureFactory.getPlay(), corps.getPosition().x, corps.getPosition().y, width, height);
     }
 
-    /**
-     * Lance l'animation de l'EditorScreen lors du clic
-     */
-    @Override
-    public void action() {
-        es.setRunning(true);
-    }
-
     @Override
     public String toString() {
         return "BoutonJouer";

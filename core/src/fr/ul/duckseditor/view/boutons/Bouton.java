@@ -18,6 +18,11 @@ public abstract class Bouton {
     protected Monde monde;
 
     /**
+     * Monde pour créer le bouton pour le selecteur
+     */
+    protected World world;
+
+    /**
      * corps du bouton
      */
     protected Body corps;
@@ -64,6 +69,64 @@ public abstract class Bouton {
 
         width = 2;
         height = 2;
+
+        x = position.x;
+        y = position.y;
+
+        PolygonShape carre = new PolygonShape();
+        carre.set(new float[]{0.f, 0.f, 0.f, height, width, height, width, 0.f}); // 2x2 UM
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = carre;
+        corps.createFixture(fixtureDef);
+        carre.dispose();
+    }
+
+    /**
+     * Constructeur de bouton en forme de carré avec un World
+     * @param monde monde dans lequel mettre le corps du bouton
+     * @param position position du bouton
+     */
+    public Bouton (World monde, Vector2 position) {
+        this.world = monde;
+
+        BodyDef def = new BodyDef();
+        def.type = BodyDef.BodyType.StaticBody;
+        def.position.set(new Vector2(position));
+
+        corps = monde.createBody(def);
+        corps.setUserData(this);
+
+        width = 2;
+        height = 2;
+
+        x = position.x;
+        y = position.y;
+
+        PolygonShape carre = new PolygonShape();
+        carre.set(new float[]{0.f, 0.f, 0.f, height, width, height, width, 0.f}); // 2x2 UM
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = carre;
+        corps.createFixture(fixtureDef);
+        carre.dispose();
+    }
+
+    /**
+     * Constructeur de bouton en forme de carré avec un World et une taille définie
+     * @param monde monde dans lequel mettre le corps du bouton
+     * @param position position du bouton
+     */
+    public Bouton (World monde, Vector2 position, Vector2 size) {
+        this.world = monde;
+
+        BodyDef def = new BodyDef();
+        def.type = BodyDef.BodyType.StaticBody;
+        def.position.set(new Vector2(position));
+
+        corps = monde.createBody(def);
+        corps.setUserData(this);
+
+        width = size.x;
+        height = size.y;
 
         x = position.x;
         y = position.y;
@@ -152,11 +215,6 @@ public abstract class Bouton {
             sr.rect(corps.getPosition().x, corps.getPosition().y, width, height);
         }
     }
-
-    /**
-     * Action à effectuer lors du clic sur le bouton
-     */
-    public abstract void action ();
 
     /**
      * @return corps du bouton

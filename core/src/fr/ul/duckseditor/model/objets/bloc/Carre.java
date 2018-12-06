@@ -33,6 +33,11 @@ public class Carre extends Bloc {
         carre.dispose();
     }
 
+    public Carre (World monde, Vector2 position, float angle) {
+        super(monde, position);
+        getCorps().setTransform(position.x, position.y, angle);
+    }
+
     /**
      * Méthode affichant à l'écran le carre
      * @param sb SpriteBatch utiliser pour l'affichage
@@ -44,8 +49,13 @@ public class Carre extends Bloc {
         s.setSize(width, height);
         s.setPosition(corps.getPosition().x, corps.getPosition().y);
         s.setOrigin(0.f, 0.f);
-        s.setRotation(rotation);
+        //s.setRotation(rotation);
         s.draw(sb);
+    }
+
+    @Override
+    public String toString() {
+        return "Carre:" + corps.getPosition().x + ":" + corps.getPosition().y + ":" + corps.getAngle();
     }
 
 }

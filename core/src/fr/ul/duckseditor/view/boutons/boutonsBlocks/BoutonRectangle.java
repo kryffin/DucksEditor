@@ -29,14 +29,6 @@ public class BoutonRectangle extends Bouton {
         sb.draw(TextureFactory.getBeam(), corps.getPosition().x, corps.getPosition().y, width, height);
     }
 
-    /**
-     * Fais apparaitre un rectangle au milieu de l'écran lors de l'action du bouton
-     */
-    @Override
-    public void action() {
-        monde.spawnRectangle(DucksEditor.UM_WIDTH/2, DucksEditor.UM_HEIGHT/2);
-    }
-
     @Override
     public String toString() {
         return "BoutonRectangle";

@@ -33,6 +33,11 @@ public class Rectangle extends Bloc {
         carre.dispose();
     }
 
+    public Rectangle (World monde, Vector2 position, float angle) {
+        super(monde, position);
+        getCorps().setTransform(position.x, position.y, angle);
+    }
+
     /**
      * Méthode affichant à l'écran le rectangle
      * @param sb SpriteBatch utiliser pour l'affichage
@@ -46,6 +51,11 @@ public class Rectangle extends Bloc {
         s.setOrigin(0.f, 0.f);
         s.setRotation(rotation);
         s.draw(sb);
+    }
+
+    @Override
+    public String toString() {
+        return "Rectangle:" + corps.getPosition().x + ":" + corps.getPosition().y + ":" + corps.getAngle();
     }
 
 }

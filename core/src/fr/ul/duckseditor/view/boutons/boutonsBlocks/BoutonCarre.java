@@ -29,14 +29,6 @@ public class BoutonCarre extends Bouton {
         sb.draw(TextureFactory.getBlock(), corps.getPosition().x, corps.getPosition().y, width, height);
     }
 
-    /**
-     * Fais apparaitre un carre au milieu de l'écran lors de l'action du bouton
-     */
-    @Override
-    public void action() {
-        monde.spawnCarre(DucksEditor.UM_WIDTH/2, DucksEditor.UM_HEIGHT/2);
-    }
-
     @Override
     public String toString() {
         return "BoutonCarre";

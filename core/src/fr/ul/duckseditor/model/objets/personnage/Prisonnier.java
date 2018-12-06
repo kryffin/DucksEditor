@@ -21,6 +21,11 @@ public class Prisonnier extends Personnage {
         pv = 20;
     }
 
+    public Prisonnier (World monde, Vector2 position, float angle) {
+        super(monde, position);
+        getCorps().setTransform(position.x, position.y, angle);
+    }
+
     /**
      * Méthode affichant à l'écran le prisonnier
      * @param sb SpriteBatch utiliser pour l'affichage
@@ -33,6 +38,12 @@ public class Prisonnier extends Personnage {
         s.setPosition(corps.getPosition().x - diameter/2, corps.getPosition().y - diameter/2);
         s.setOriginCenter();
         s.setRotation(rotation);
-        s.draw(sb);    }
+        s.draw(sb);
+    }
+
+    @Override
+    public String toString() {
+        return "Prisonnier:" + corps.getPosition().x + ":" + corps.getPosition().y + ":" + corps.getAngle();
+    }
 
 }

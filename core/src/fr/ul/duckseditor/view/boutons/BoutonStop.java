@@ -35,14 +35,6 @@ public class BoutonStop extends Bouton {
         sb.draw(TextureFactory.getStop(), corps.getPosition().x, corps.getPosition().y, width, height);
     }
 
-    /**
-     * Stoppe l'animation de l'EditorScreen
-     */
-    @Override
-    public void action() {
-        es.setRunning(false);
-    }
-
     @Override
     public String toString() {
         return "BoutonStop";

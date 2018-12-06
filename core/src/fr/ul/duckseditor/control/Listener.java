@@ -11,7 +11,6 @@ import com.badlogic.gdx.physics.box2d.QueryCallback;
 import fr.ul.duckseditor.model.objets.Objet;
 import fr.ul.duckseditor.view.EditorPanel;
 import fr.ul.duckseditor.view.EditorScreen;
-import fr.ul.duckseditor.view.boutons.Bouton;
 import java.util.ArrayList;
 
 /**
@@ -127,14 +126,9 @@ public class Listener implements InputProcessor {
                     buttonType = button;
                 }
             }
-            //parcours des boutons de l'EditorPanel
-            for (Bouton b : ep.getBoutons()) {
-                if (b.getCorps() == oSelectionne) {
-                    //appel de l'action du bouton cliqué
-                    b.action();
-                }
-            }
         }
+
+        es.getMonde().action(objetsSelectionnes, ep.getBoutons());
 
         return true;
     }

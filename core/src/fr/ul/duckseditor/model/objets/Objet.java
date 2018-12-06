@@ -38,4 +38,5 @@ public abstract class Objet {
     public Body getCorps() {
         return corps;
     }
+
 }

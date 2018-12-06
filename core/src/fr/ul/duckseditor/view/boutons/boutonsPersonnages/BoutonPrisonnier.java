@@ -29,14 +29,6 @@ public class BoutonPrisonnier extends Bouton {
         sb.draw(TextureFactory.getTargetBlue(), corps.getPosition().x - diameter/2, corps.getPosition().y - diameter/2, diameter, diameter);
     }
 
-    /**
-     * Fais apparaitre un prisonnier au milieu de l'écran lors de l'action du bouton
-     */
-    @Override
-    public void action() {
-        monde.spawnPrisonnier(DucksEditor.UM_WIDTH/2, DucksEditor.UM_HEIGHT/2);
-    }
-
     @Override
     public String toString() {
         return "BoutonPrisonnier";

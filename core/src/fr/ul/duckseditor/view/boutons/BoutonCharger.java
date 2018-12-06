@@ -28,14 +28,6 @@ public class BoutonCharger extends Bouton {
         sb.draw(TextureFactory.getLoad(), corps.getPosition().x, corps.getPosition().y, width, height);
     }
 
-    /**
-     * todo action
-     */
-    @Override
-    public void action() {
-        //ouvre la fenetre de chargement
-    }
-
     @Override
     public String toString() {
         return "BoutonCharger";

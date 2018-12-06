@@ -27,14 +27,6 @@ public class BoutonPoubelle extends Bouton {
         sb.draw(TextureFactory.getTrash(), corps.getPosition().x, corps.getPosition().y, width, height);
     }
 
-    /**
-     * rien à faire
-     */
-    @Override
-    public void action() {
-        //rien
-    }
-
     @Override
     public String toString() {
         return "BoutonPoubelle";

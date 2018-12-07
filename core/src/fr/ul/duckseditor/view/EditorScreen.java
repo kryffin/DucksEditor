@@ -129,7 +129,6 @@ public class EditorScreen extends ScreenAdapter {
             sb.draw(TextureFactory.getBackground(), 0, 0, DucksEditor.UM_WIDTH, DucksEditor.UM_HEIGHT); //affiche le fond et l'étire
             ep.draw(sb);
             monde.draw(sb);
-            System.out.println(monde.getObjets());
         }
 
         //affichage debug
@@ -187,8 +186,6 @@ public class EditorScreen extends ScreenAdapter {
             str.append(o.toString() + "\n");
         }
 
-        System.out.println(str.toString());
-
         fc.update();
 
         fc.save(str.toString(), override);
@@ -203,27 +200,20 @@ public class EditorScreen extends ScreenAdapter {
 
         String[] lines = niveau.split(System.getProperty("line.separator"));
         for (int i = 0; i < lines.length; i++) {
-            System.out.println(lines[i]);
             String[] description = lines[i].split(":");
             if (description[0].equals("Rectangle")) {
                 monde.spawnRectangle(Float.parseFloat(description[1]), Float.parseFloat(description[2]), Float.parseFloat(description[3]));
-                System.out.println("Spawn de rectangle");
             } else if (description[0].equals("Carre")) {
                 monde.spawnCarre(Float.parseFloat(description[1]), Float.parseFloat(description[2]), Float.parseFloat(description[3]));
-                System.out.println("Sapwn de carre");
             } else if (description[0].equals("Prisonnier")) {
                 monde.spawnPrisonnier(Float.parseFloat(description[1]), Float.parseFloat(description[2]), Float.parseFloat(description[3]));
-                System.out.println("spawn de prisonnier");
             }
         }
-
-        System.out.println(monde.getObjets());
 
         quitterCharger();
     }
 
     public void quitterCharger () {
-        System.out.println("Fin de sélection de niveau");
         Gdx.input.setInputProcessor(listener);
         setShowLoad(false);
     }

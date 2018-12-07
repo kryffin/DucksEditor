@@ -56,8 +56,6 @@ public class FileChooserListener implements InputProcessor {
             }
         }, contact.x - 0.005f, contact.y - 0.005f, contact.x + 0.005f, contact.y + 0.005f);
 
-        System.out.println("Contact detecté, taille liste : " + objetsSelectionnes.size());
-
         fc.action(objetsSelectionnes);
 
         return true;

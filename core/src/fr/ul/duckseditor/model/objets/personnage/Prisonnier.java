@@ -22,7 +22,7 @@ public class Prisonnier extends Personnage {
     }
 
     public Prisonnier (World monde, Vector2 position, float angle) {
-        super(monde, position);
+        this(monde, position);
         getCorps().setTransform(position.x, position.y, angle);
     }
 

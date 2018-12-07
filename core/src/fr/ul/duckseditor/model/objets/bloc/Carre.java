@@ -1,10 +1,14 @@
 package fr.ul.duckseditor.model.objets.bloc;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
+import fr.ul.duckseditor.DucksEditor;
 import fr.ul.duckseditor.dataFactory.TextureFactory;
+import sun.net.www.protocol.https.DelegateHttpsURLConnection;
 
 /**
  * @author KLEINHENTZ 'Kryffin' Nicolas
@@ -34,7 +38,7 @@ public class Carre extends Bloc {
     }
 
     public Carre (World monde, Vector2 position, float angle) {
-        super(monde, position);
+        this(monde, position);
         getCorps().setTransform(position.x, position.y, angle);
     }
 
@@ -49,7 +53,7 @@ public class Carre extends Bloc {
         s.setSize(width, height);
         s.setPosition(corps.getPosition().x, corps.getPosition().y);
         s.setOrigin(0.f, 0.f);
-        //s.setRotation(rotation);
+        s.setRotation(rotation);
         s.draw(sb);
     }
 

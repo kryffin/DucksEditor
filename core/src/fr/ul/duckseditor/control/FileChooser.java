@@ -69,9 +69,9 @@ public class FileChooser {
         File f = new File(savePath);
         if (!f.exists()) {
             f.mkdir();
-            System.out.println("Dossier créé");
+            System.out.println("Dossier MadDucksFiles inexistant, création...");
         } else {
-            System.out.println("dossier deja existant");
+            System.out.println("Dossier MadDucksFiles déjà existant.");
         }
 
         mondeSelecteur = new World(new Vector2(0.f, 0.f), true);
@@ -100,8 +100,6 @@ public class FileChooser {
             }
         }
         nbFiles = currentFileNames.size();
-
-        System.out.println(currentFileNames);
     }
 
     public void save (String str, boolean override) {
@@ -146,12 +144,10 @@ public class FileChooser {
 
         es.setShowLoad(true);
 
-        System.out.println("ouverture du selecteur de niveau");
         Gdx.input.setInputProcessor(listener);
     }
 
     public void next () {
-        System.out.println("next");
         if (currentFile == currentFileNames.size() - 1) {
             currentFile = 0;
         } else {
@@ -160,7 +156,6 @@ public class FileChooser {
     }
 
     public void previous () {
-        System.out.println("previous");
         if (currentFile == 0) {
             currentFile = currentFileNames.size() - 1;
         } else {
@@ -169,7 +164,6 @@ public class FileChooser {
     }
 
     public void exit () {
-        System.out.println("Indice : " + currentFile);
         es.quitterCharger();
     }
 
@@ -187,7 +181,6 @@ public class FileChooser {
     }
 
     public void action (ArrayList<Body> objetsSelectionnes) {
-        System.out.println("current : " + currentFile);
         for (Body body : objetsSelectionnes) {
             for (Bouton bouton : boutons) {
                 if (body == bouton.getCorps() && bouton.toString().equals("BoutonFlecheGauche")) {

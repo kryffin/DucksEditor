@@ -34,7 +34,7 @@ public class Rectangle extends Bloc {
     }
 
     public Rectangle (World monde, Vector2 position, float angle) {
-        super(monde, position);
+        this(monde, position);
         getCorps().setTransform(position.x, position.y, angle);
     }
 

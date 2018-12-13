@@ -33,6 +33,12 @@ public class Rectangle extends Bloc {
         carre.dispose();
     }
 
+    /**
+     * Constructeur appelé pour le chargement d'un niveau
+     * @param monde monde dans lequel construire le rectangle
+     * @param position position du ractangle
+     * @param angle rotation du rectangle
+     */
     public Rectangle (World monde, Vector2 position, float angle) {
         this(monde, position);
         getCorps().setTransform(position.x, position.y, angle);

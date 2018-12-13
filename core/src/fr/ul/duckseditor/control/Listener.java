@@ -1,5 +1,6 @@
 package fr.ul.duckseditor.control;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
@@ -179,39 +180,69 @@ public class Listener implements InputProcessor {
             for (Objet oMonde : es.getMonde().getObjets()) {
                 if (oMonde.getCorps() == oSelectionne) {
 
-                    //translation si click droit, rotation sinon
-                    if (buttonType == Input.Buttons.LEFT) {
+                    //si on est sur Android on détecte le nombre de doigts, sinon le clic gauche/droit
+                    if (Gdx.app.getType() == Application.ApplicationType.Android) {
 
-                        //création d'un vecteur entre le précédent contact et l'actuel et déplacement des objets selectionnés par rapport à ce vecteur
-                        Objet o = (Objet)oSelectionne.getUserData();
+                        if (getNbContacts() == 1) {
 
-                        Vector2 vector = new Vector2(contact.x - lastContactPos.x, contact.y - lastContactPos.y);
-                        o.getCorps().setTransform(o.getCorps().getPosition().x + vector.x, o.getCorps().getPosition().y + vector.y, o.getCorps().getAngle());
+                            //création d'un vecteur entre le précédent contact et l'actuel et déplacement des objets selectionnés par rapport à ce vecteur
+                            Objet o = (Objet)oSelectionne.getUserData();
 
-                        //mise à jour du dernier contact
-                        lastContactPos.set(contact.x, contact.y);
+                            Vector2 vector = new Vector2(contact.x - lastContactPos.x, contact.y - lastContactPos.y);
+                            o.getCorps().setTransform(o.getCorps().getPosition().x + vector.x, o.getCorps().getPosition().y + vector.y, o.getCorps().getAngle());
+
+                            //mise à jour du dernier contact
+                            lastContactPos.set(contact.x, contact.y);
+
+                        } else if (getNbContacts() == 2) {
+
+                            Objet o = (Objet)oSelectionne.getUserData();
+
+                            //création d'un vecteur entre l'origine de l'objet et le contact actuel
+                            Vector2 vectorCrt = new Vector2(contact.x - o.getCorps().getPosition().x, contact.y - o.getCorps().getPosition().y);
+
+                            //mise à jour de la rotation de l'objet par rapport à l'angle entre le vecteur actuel et le vecteur précédement enregistré
+                            o.getCorps().setTransform(o.getCorps().getPosition().x, o.getCorps().getPosition().y, o.getCorps().getAngle() + vectorPrec.angleRad(vectorCrt));
+
+                            //mise à jour du vecteur précédent
+                            vectorPrec.set(vectorCrt.x, vectorCrt.y);
+
+                        }
 
                     } else {
 
-                        Objet o = (Objet)oSelectionne.getUserData();
+                        //translation si click droit, rotation sinon
+                        if (buttonType == Input.Buttons.LEFT) {
 
-                        //création d'un vecteur entre l'origine de l'objet et le contact actuel
-                        Vector2 vectorCrt = new Vector2(contact.x - o.getCorps().getPosition().x, contact.y - o.getCorps().getPosition().y);
+                            //création d'un vecteur entre le précédent contact et l'actuel et déplacement des objets selectionnés par rapport à ce vecteur
+                            Objet o = (Objet)oSelectionne.getUserData();
 
-                        //mise à jour de la rotation de l'objet par rapport à l'angle entre le vecteur actuel et le vecteur précédement enregistré
-                        o.getCorps().setTransform(o.getCorps().getPosition().x, o.getCorps().getPosition().y, o.getCorps().getAngle() + vectorPrec.angleRad(vectorCrt));
+                            Vector2 vector = new Vector2(contact.x - lastContactPos.x, contact.y - lastContactPos.y);
+                            o.getCorps().setTransform(o.getCorps().getPosition().x + vector.x, o.getCorps().getPosition().y + vector.y, o.getCorps().getAngle());
 
-                        //mise à jour du vecteur précédent
-                        vectorPrec.set(vectorCrt.x, vectorCrt.y);
+                            //mise à jour du dernier contact
+                            lastContactPos.set(contact.x, contact.y);
+
+                        } else {
+
+                            Objet o = (Objet)oSelectionne.getUserData();
+
+                            //création d'un vecteur entre l'origine de l'objet et le contact actuel
+                            Vector2 vectorCrt = new Vector2(contact.x - o.getCorps().getPosition().x, contact.y - o.getCorps().getPosition().y);
+
+                            //mise à jour de la rotation de l'objet par rapport à l'angle entre le vecteur actuel et le vecteur précédement enregistré
+                            o.getCorps().setTransform(o.getCorps().getPosition().x, o.getCorps().getPosition().y, o.getCorps().getAngle() + vectorPrec.angleRad(vectorCrt));
+
+                            //mise à jour du vecteur précédent
+                            vectorPrec.set(vectorCrt.x, vectorCrt.y);
+
+                        }
 
                     }
-
                 }
             }
         }
-
-
-
+        
         return true;
     }
 
@@ -223,5 +254,16 @@ public class Listener implements InputProcessor {
     @Override
     public boolean scrolled(int amount) {
         return true;
+    }
+
+    /**
+     * @return le nombre de contact sur l'écran
+     */
+    private int getNbContacts () {
+        int nb = 0;
+        for (int i = 0; i < 20; i++) {
+            if (Gdx.input.isTouched(i)) nb++;
+        }
+        return nb;
     }
 }

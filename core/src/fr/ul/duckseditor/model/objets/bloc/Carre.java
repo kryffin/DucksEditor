@@ -37,6 +37,12 @@ public class Carre extends Bloc {
         carre.dispose();
     }
 
+    /**
+     * Constructeur appelé pour le chargement d'un niveau
+     * @param monde monde dans lequel construire le carré
+     * @param position position du carré
+     * @param angle rotation du carré
+     */
     public Carre (World monde, Vector2 position, float angle) {
         this(monde, position);
         getCorps().setTransform(position.x, position.y, angle);

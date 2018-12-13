@@ -1,11 +1,15 @@
 package fr.ul.duckseditor.model;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.BufferUtils;
+import com.badlogic.gdx.utils.ScreenUtils;
 import fr.ul.duckseditor.DucksEditor;
 import fr.ul.duckseditor.model.objets.Objet;
 import fr.ul.duckseditor.model.objets.bloc.Carre;
@@ -72,6 +76,12 @@ public class Monde {
         objets.add(new Carre(monde, new Vector2(x, y)));
     }
 
+    /**
+     * Méthode faisant apparaitre un carré à une position et un angle donné dans le monde
+     * @param x position x de l'objet
+     * @param y position y de l'objet
+     * @param angle rotation du carré
+     */
     public void spawnCarre (float x, float y, float angle) {
         objets.add(new Carre(monde, new Vector2(x, y), angle));
     }
@@ -85,6 +95,12 @@ public class Monde {
         objets.add(new Rectangle(monde, new Vector2(x, y)));
     }
 
+    /**
+     * Méthode faisant apparaitre un rectangle à une position et un angle donné dans le monde
+     * @param x position x de l'objet
+     * @param y position y de l'objet
+     * @param angle rotation du rectangle
+     */
     public void spawnRectangle (float x, float y, float angle) {
         objets.add(new Rectangle(monde, new Vector2(x, y), angle));
     }
@@ -98,10 +114,19 @@ public class Monde {
         objets.add(new Prisonnier(monde, new Vector2(x, y)));
     }
 
+    /**
+     * Méthode faisant apparaitre un prisonnier à une position et un angle donné dans le monde
+     * @param x position x de l'objet
+     * @param y position y de l'objet
+     * @param angle rotation du prisonnier
+     */
     public void spawnPrisonnier (float x, float y, float angle) {
         objets.add(new Prisonnier(monde, new Vector2(x, y), angle));
     }
 
+    /**
+     * Construit les bords du niveau
+     */
     private void constructionBords () {
         //bord au sol
 
@@ -186,6 +211,11 @@ public class Monde {
         objets.remove(o);
     }
 
+    /**
+     * Appel des actions correspondantes aux boutons cliqués
+     * @param objetsSelectionnes boutons cliqués
+     * @param boutons boutons du panneau
+     */
     public void action (ArrayList<Body> objetsSelectionnes, ArrayList<Bouton> boutons) {
         for (Body body : objetsSelectionnes) {
             for (Bouton bouton : boutons) {
@@ -210,11 +240,26 @@ public class Monde {
         }
     }
 
+    /**
+     * Détruit les objets du niveau
+     */
     public void clean () {
         for (Objet o : objets) {
             monde.destroyBody(o.getCorps());
         }
         objets = new ArrayList<Objet>();
+    }
+
+    /**
+     * @return une Pixmap définissant le screenshot du niveau
+     */
+    public Pixmap getScreenshot () {
+        byte[] pixels = ScreenUtils.getFrameBufferPixels(Gdx.graphics.getWidth() / 6, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), true);
+
+        Pixmap screenShot = new Pixmap(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), Pixmap.Format.RGBA8888);
+        BufferUtils.copy(pixels, 0, screenShot.getPixels(), pixels.length);
+
+        return screenShot;
     }
 
     /**

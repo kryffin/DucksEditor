@@ -23,7 +23,7 @@ public class TextureFactory {
     private static Texture stop = new Texture(Gdx.files.internal("images/Stop.png"));
     private static Texture targetBeige = new Texture(Gdx.files.internal("images/targetbeige.png"));
     private static Texture targetBlue = new Texture(Gdx.files.internal("images/targetblue.png"));
-    private static Texture trash = new Texture(Gdx.files.internal("images/trash.png"));
+    private static Texture trash = new Texture(Gdx.files.internal("images/Trash.png"));
 
     public static Texture getBackground() {
         return background;

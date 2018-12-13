@@ -21,6 +21,12 @@ public class Prisonnier extends Personnage {
         pv = 20;
     }
 
+    /**
+     * Constructeur appelé pour le chargement d'un niveau
+     * @param monde monde dans lequel construire le prisonnier
+     * @param position position du prisonnier
+     * @param angle rotation du prisonnier
+     */
     public Prisonnier (World monde, Vector2 position, float angle) {
         this(monde, position);
         getCorps().setTransform(position.x, position.y, angle);

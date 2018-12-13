@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.PixmapIO;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
@@ -16,7 +17,10 @@ import fr.ul.duckseditor.DucksEditor;
 import fr.ul.duckseditor.dataFactory.TextureFactory;
 import fr.ul.duckseditor.view.EditorScreen;
 import fr.ul.duckseditor.view.boutons.*;
+
+import javax.xml.bind.SchemaOutputResolver;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -62,16 +66,13 @@ public class FileChooser {
      */
     public FileChooser (EditorScreen es) {
         this.es = es;
-        savePath = "MadDucksFiles";
+        savePath = Gdx.files.getLocalStoragePath() + "MadDucksFiles";
         currentFileNames = new ArrayList<String>(); //check and register current file names
         nbFiles = -1; //check current file
 
         File f = new File(savePath);
         if (!f.exists()) {
             f.mkdir();
-            System.out.println("Dossier MadDucksFiles inexistant, création...");
-        } else {
-            System.out.println("Dossier MadDucksFiles déjà existant.");
         }
 
         mondeSelecteur = new World(new Vector2(0.f, 0.f), true);
@@ -84,13 +85,15 @@ public class FileChooser {
         selection = false;
 
         listener = new FileChooserListener(es, this, mondeSelecteur);
+
+        update();
     }
 
     /**
      * Met à jour la liste des fichiers du dossier de sauvegarde
      */
     public void update () {
-        FileHandle[] files = Gdx.files.local(savePath).list();
+        FileHandle[] files = new FileHandle(savePath).list();
 
         //porcours des fichiers du dossier de sauvegarde
         for (FileHandle f : files) {
@@ -99,15 +102,29 @@ public class FileChooser {
                 currentFileNames.add(f.nameWithoutExtension());
             }
         }
+
         nbFiles = currentFileNames.size();
     }
 
+    /**
+     * Sauvegarde l'état du niveau dans un fichier .mdl ainsi qu'un screenshot dans un fichier png
+     * @param str niveau sous forme textuelle
+     * @param override vrai si le niveau à sauvegarder est un écrasement, faux sinon
+     */
     public void save (String str, boolean override) {
 
+        //teste si un espace de stockage local est disponible
+        if (!Gdx.files.isLocalStorageAvailable()) {
+            System.out.println("pas de stockage local");
+            return;
+        }
+
+        //cherche un indice de niveau libre
         while (currentFileNames.contains("Niveau_" + nbFiles)) {
             nbFiles++;
         }
 
+        //créé le nom du fichier avec l'indice à utiliser
         String nomFichier;
         if (!override) {
             nomFichier = "Niveau_" + nbFiles;
@@ -122,19 +139,16 @@ public class FileChooser {
 
         //fichier .png
 
-        byte[] pixels = ScreenUtils.getFrameBufferPixels(Gdx.graphics.getBackBufferWidth() / 6, 0, (Gdx.graphics.getBackBufferWidth() / 6) * 5, Gdx.graphics.getBackBufferHeight(), true);
-
-        // this loop makes sure the whole screenshot is opaque and looks exactly like what the user is seeing
-        for(int i = 4; i < pixels.length; i += 4) {
-            pixels[i - 1] = (byte) 255;
-        }
-
-        Pixmap pixmap = new Pixmap(Gdx.graphics.getBackBufferWidth() - (Gdx.graphics.getBackBufferWidth() / 6), Gdx.graphics.getBackBufferHeight(), Pixmap.Format.RGBA8888);
-        BufferUtils.copy(pixels, 0, pixmap.getPixels(), pixels.length);
-        PixmapIO.writePNG(Gdx.files.local(savePath + "/" + nomFichier + ".png"), pixmap);
-        pixmap.dispose();
+        Pixmap px = this.es.getMonde().getScreenshot();
+        f = new FileHandle(savePath + "/" + nomFichier + ".png");
+        PixmapIO.writePNG(f, px);
+        px.dispose();
+        update();
     }
 
+    /**
+     * Lance le sélectionneur de niveau à charger
+     */
     public void load () {
         currentFile = 0;
 
@@ -147,6 +161,9 @@ public class FileChooser {
         Gdx.input.setInputProcessor(listener);
     }
 
+    /**
+     * Passe au niveau suivant dans le sélectionneur
+     */
     public void next () {
         if (currentFile == currentFileNames.size() - 1) {
             currentFile = 0;
@@ -155,6 +172,9 @@ public class FileChooser {
         }
     }
 
+    /**
+     * Passe au niveau précédent dans le sélectionneur
+     */
     public void previous () {
         if (currentFile == 0) {
             currentFile = currentFileNames.size() - 1;
@@ -163,23 +183,40 @@ public class FileChooser {
         }
     }
 
+    /**
+     * Quitte le sélectionneur de niveau
+     */
     public void exit () {
         es.quitterCharger();
     }
 
+    /**
+     * Affiche le sélectionneur de niveau sur l'écran
+     * @param sb SpriteBatch affichant les éléments graphiques
+     */
     public void draw (SpriteBatch sb) {
+        //fond
         sb.draw(TextureFactory.getEditPanel(), 0.f, 0.f, DucksEditor.UM_WIDTH, DucksEditor.UM_HEIGHT);
-        if (Gdx.files.local("MadDucksFiles/Niveau_" + currentFile + ".png").exists()) {
+
+        //bouton texturé du screenshot
+        FileHandle f = new FileHandle(savePath + "/Niveau_" + currentFile + ".png");
+        if (f.exists()) {
             ((BoutonTexture)boutons[3]).setTexture(new Texture(Gdx.files.local("MadDucksFiles/Niveau_" + currentFile + ".png")));
         } else {
+            System.out.println("fichier pas présent " + f);
             exit();
         }
 
+        //boutons
         for (Bouton b : boutons) {
             b.draw(sb);
         }
     }
 
+    /**
+     * Parcours les boutons cliqués et exécute les actions les concernant
+     * @param objetsSelectionnes objets cliqués
+     */
     public void action (ArrayList<Body> objetsSelectionnes) {
         for (Body body : objetsSelectionnes) {
             for (Bouton bouton : boutons) {

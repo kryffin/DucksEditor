@@ -72,6 +72,9 @@ public class EditorScreen extends ScreenAdapter {
      */
     private FileChooser fc;
 
+    /**
+     * Vrai si le sélecteur de niveau est ouvert, faux sinon
+     */
     private boolean showLoad;
 
     /**
@@ -180,6 +183,10 @@ public class EditorScreen extends ScreenAdapter {
         }
     }
 
+    /**
+     * Construit la chaîne de caractères décrivant le niveau et l'envoie au FileChooser
+     * @param override vrai si le niveau est à écraser, faux sinon
+     */
     public void sauvegarder (boolean override) {
         StringBuilder str = new StringBuilder();
         for (Objet o : monde.getObjets()) {
@@ -191,10 +198,17 @@ public class EditorScreen extends ScreenAdapter {
         fc.save(str.toString(), override);
     }
 
+    /**
+     * Appel du chargement sur le FileChooser
+     */
     public void charger () {
         fc.load();
     }
 
+    /**
+     * Créé les objets correspondant à la chaîne de caractères en argument
+     * @param niveau string définissant le niveau
+     */
     public void chargerNiveau (String niveau) {
         monde.clean();
 
@@ -213,6 +227,9 @@ public class EditorScreen extends ScreenAdapter {
         quitterCharger();
     }
 
+    /**
+     * Quitte le sélecteur de niveau
+     */
     public void quitterCharger () {
         Gdx.input.setInputProcessor(listener);
         setShowLoad(false);
@@ -247,6 +264,10 @@ public class EditorScreen extends ScreenAdapter {
         return ep;
     }
 
+    /**
+     * Setter sur l'affichage du sélecteur de niveau ou pas
+     * @param b vrai pour afficher le sélecteur de niveau, faux sinon
+     */
     public void setShowLoad (boolean b) {
         showLoad = b;
     }

@@ -34,8 +34,8 @@ public class EditorPanel {
 
     /**
      * Constructeur avec le monde dans lequel ajouter les boutons ainsi que l'EditorScreen dans lequel ajouter le panneau
-     * @param monde
-     * @param es
+     * @param monde monde à lier
+     * @param es EditorScreen dans lequel mettre le panneau
      */
     public EditorPanel (Monde monde, EditorScreen es) {
         width = DucksEditor.UM_WIDTH / 6;
@@ -59,12 +59,11 @@ public class EditorPanel {
         boutons.add(new BoutonCarre(monde, new Vector2(width/4 - (width/4) + (width/40), DucksEditor.UM_HEIGHT - 8 - 4.f)));
         boutons.add(new BoutonRectangle(monde, new Vector2((width/4) * 2 - (width/4) + (width/40), DucksEditor.UM_HEIGHT - 8 - 6.f)));
         boutons.add(new BoutonPrisonnier(monde, new Vector2((width/4) * 3 - (width/4) + (width/40), DucksEditor.UM_HEIGHT - 8 - 4.f)));
-
     }
 
     /**
      * Méthode affichant le fond du panneau puis appel l'affichage des boutons un a un
-     * @param sb
+     * @param sb SpriteBatch gérant l'affichage
      */
     public void draw (SpriteBatch sb) {
         sb.setColor(1.f, 1.f, 1.f, 0.75f);
@@ -75,6 +74,10 @@ public class EditorPanel {
         }
     }
 
+    /**
+     * Affichage des formes à l'écran
+     * @param sr ShapeRenderer gérant les formes géométriques
+     */
     public void draw (ShapeRenderer sr) {
         for (Bouton b : boutons) {
             b.draw(sr);
